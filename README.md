@@ -1,1 +1,0 @@
-# paypack-js
