@@ -44,5 +44,6 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/quarksgroup/paypack-js/issues"
-  }
+  },
+  "browserslist": "> 0.25%, not dead"
 }
