@@ -1,0 +1,14 @@
+*
+.DS_Store
+.env
+.travis.yml
+!lib/**
+!package.json
+!babel.config.js
+!.npmignore
+!.gitignore
+!.babelrc
+!CHANGELOG.md
+!index.js
+!README.md
+!test.js

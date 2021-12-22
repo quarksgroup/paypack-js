@@ -1,18 +1,34 @@
 {
+  "author": "Quarks Group <quarksgroup.rw>",
   "name": "paypack-js",
   "version": "0.1.0",
-  "description": "",
+  "description": "Paypack SDK for Javascript Integration",
+  "homepage": "paypack.rw",
   "main": "index.js",
   "directories": {
-    "lib": "lib"
+    "lib": "lib",
+    "tools": "tools"
   },
   "dependencies": {
     "axios": "^0.24.0",
     "lodash": "^4.17.21"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@babel/cli": "^7.16.0",
+    "@babel/core": "^7.16.5",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "babel-runtime": "^6.26.0",
+    "rimraf": "^3.0.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "tools/scripts/compile.sh"
   },
   "repository": {
     "type": "git",
@@ -23,10 +39,8 @@
     "payment",
     "sdk"
   ],
-  "author": "Quarks Group",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/quarksgroup/paypack-js/issues"
-  },
-  "homepage": "https://github.com/quarksgroup/paypack-js#readme"
+  }
 }
