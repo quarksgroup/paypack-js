@@ -102,7 +102,7 @@ Paypack.transactions({ offset:0, limit:100 })
  - offset	String() // offset of transactions to fetch
  - limit	String() // limit of transactions to fetch default is 20
  - from		Date()	// starting date range of transactions to fetch
- - to		String() // ending date range of transactions to fetch
+ - to		Date() // ending date range of transactions to fetch
  - kind		String() //  kind of transactions to fetch eg: CASHIN or CASHOUT
  - client	Number() // transactions for a specific client
 ```
@@ -133,7 +133,7 @@ Paypack.events({ offset:0, limit:100 })
  - offset	String() // offset of events to fetch
  - limit	String() // limit of events to fetch default is 20
  - from		Date()	// starting date range of events to fetch
- - to		String() // ending date range of events to fetch
+ - to		Date() // ending date range of events to fetch
  - kind		String() //  kind of events to fetch eg: CASHIN or CASHOUT
  - client	Number() // events for a specific client
  - ref		String() // events for a specific transaction ref
