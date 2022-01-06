@@ -9,7 +9,7 @@ Paypack-js is a wrapper around the Paypack HTTP based API that can be easily int
 
 ## Getting started guide
 
-Before any integrations a Paypack account is mandatory, head over to [payments.paypack.com](payments.paypack.com) and register an account. 
+Before any integrations a Paypack account is mandatory, head over to [payments.paypack.rw](payments.paypack.rw) and register an account. 
 
 
 ## Setup 
