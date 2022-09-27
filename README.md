@@ -55,6 +55,7 @@ Paypack.cashin({
 ```
 
 <b> ⚠ Warning : </b> <i>"amount"</i> must be of type number
+<b> ⓘ Info : </b> <i>"environment"</i> is an optional parameter corresponding to a mode of operation of your registerd webhook.
 
 ##
 
@@ -81,6 +82,7 @@ Paypack.cashout({
 ```
 
 <b> ⚠ Warning : </b> <i>"amount"</i> must be of type number
+<b> ⓘ Info : </b> <i>"environment"</i> is an optional parameter corresponding to a mode of operation of your registerd webhook.
 
 ##
 
