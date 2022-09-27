@@ -1,7 +1,7 @@
 {
   "author": "Quarks Group <quarksgroup.rw>",
   "name": "paypack-js",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Paypack SDK for Javascript Integration",
   "homepage": "paypack.rw",
   "main": "index.js",
