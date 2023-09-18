@@ -2,13 +2,11 @@
 .DS_Store
 .env
 .travis.yml
-!lib/**
-!package.json
-!babel.config.js
+!build/**
 !.npmignore
 !.gitignore
-!.babelrc
-!CHANGELOG.md
 !index.js
+!index.d.ts
+!LICENSE
 !README.md
-!test.js
+!CHANGELOG.md

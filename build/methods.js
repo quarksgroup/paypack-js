@@ -67,6 +67,11 @@ async function cashin(params) {
         number = new Error("Property 'number' is required to cashin"),
         environment = null
       } = params;
+      let headers = {
+        'accept': 'application/json',
+        'Content-Type': 'application/json'
+      };
+      if (environment != null) headers['X-Webhook-Mode'] = environment;
       if (Number(amount) == NaN) throw new TypeError("Property 'amount' must be a number type");else amount = Number(amount);
       if (amount < 100) {
         throw new Error("Minimum to cashin is 100 RWF");
@@ -81,9 +86,7 @@ async function cashin(params) {
         amount,
         number
       }, {
-        headers: {
-          "X-Webhook-Mode": environment
-        }
+        headers
       });
       resolve(res);
     } catch (error) {
@@ -109,6 +112,11 @@ async function cashout(params) {
         number = new Error("Property 'number' is required to cashout"),
         environment = null
       } = params;
+      let headers = {
+        'accept': 'application/json',
+        'Content-Type': 'application/json'
+      };
+      if (environment != null) headers['X-Webhook-Mode'] = environment;
       if (Number(amount) == NaN) throw new TypeError("Property 'amount' must be a number type");else amount = Number(amount);
       if (amount < 100) {
         throw new Error("Minimum to cashout is 100 RWF");
@@ -123,9 +131,7 @@ async function cashout(params) {
         amount,
         number
       }, {
-        headers: {
-          "X-Webhook-Mode": environment
-        }
+        headers
       });
       resolve(res);
     } catch (error) {

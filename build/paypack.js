@@ -6,8 +6,13 @@ class Paypack {
   constructor(config) {
     if (config) utils.setSecrets(config);
   }
-  config(config) {
-    return new Paypack(config);
+  static config(config) {
+    if (this instanceof Paypack) {
+      utils.setSecrets(config);
+      return this;
+    } else {
+      return new Paypack(config);
+    }
   }
 }
 utils.forEach(Object.keys(methods), method => {

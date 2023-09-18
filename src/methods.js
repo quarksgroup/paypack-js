@@ -75,6 +75,13 @@ async function cashin(params) {
         environment = null,
       } = params;
 
+      let headers = {
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+      };
+
+      if (environment != null) headers['X-Webhook-Mode'] = environment;
+
       if (Number(amount) == NaN) throw new TypeError("Property 'amount' must be a number type");
       else amount = Number(amount);
 
@@ -93,11 +100,7 @@ async function cashin(params) {
       const res = await http.post(
         `transactions/cashin`,
         { amount, number },
-        {
-          headers: {
-            "X-Webhook-Mode": environment,
-          },
-        }
+        { headers }
       );
 
       resolve(res);
@@ -126,6 +129,13 @@ async function cashout(params) {
         environment = null,
       } = params;
 
+      let headers = {
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+      };
+
+      if (environment != null) headers['X-Webhook-Mode'] = environment;
+
       if (Number(amount) == NaN) throw new TypeError("Property 'amount' must be a number type");
       else amount = Number(amount);
 
@@ -144,11 +154,7 @@ async function cashout(params) {
       const res = await http.post(
         `transactions/cashout`,
         { amount, number },
-        {
-          headers: {
-            "X-Webhook-Mode": environment,
-          },
-        }
+        { headers }
       );
 
       resolve(res);

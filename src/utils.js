@@ -16,8 +16,10 @@ let state = {
 
 /**
  * Get application access token
+ * 
+ * @return {string}
  */
-async function getAccessToken() {
+function getAccessToken() {
   return token.access;
 }
 
@@ -26,7 +28,7 @@ async function getAccessToken() {
  * 
  * @return {string}
  */
-async function getRefreshToken() {
+function getRefreshToken() {
   return token.refresh;
 }
 
@@ -54,8 +56,8 @@ function isAuthenticated() {
 /**
  * sets SDK authentication state
  */
-function setAuthenticationState(state) {
-  state.isLoggedIn = state;
+function setAuthenticationState(_state) {
+  state.isLoggedIn = _state;
 }
 
 /**
@@ -69,7 +71,7 @@ function getQueryString(param) {
   if (param && typeof param != "object")
     throw new TypeError("Filter parameters should be of type object.");
 
-  if (param.limit && !param.offeset) param.offeset = 0;
+  if (param.limit && !param.offset) param.offset = 0;
 
   return Object.entries(omitBy(param, isNil))
     .map(([key, value]) => `${key}=${value}`)

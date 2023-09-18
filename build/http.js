@@ -28,8 +28,10 @@ axiosInstance.interceptors.response.use(response => Promise.resolve(response), a
           originalRequest.headers["Authorization"] = access_Token;
           return axiosInstance(originalRequest);
         } else if (originalRequest._retry) {
-          token.access = null;
-          token.refresh = null;
+          utils.setSecrets({
+            client_id: null,
+            client_secret: null
+          });
           throw new Error("Refresh token expired, please authenticate again");
         } else {
           throw error.response.data || error.response;
