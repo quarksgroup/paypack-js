@@ -20,13 +20,23 @@ Before any integrations a Paypack account is mandatory, head over to [payments.p
 
 Each request to our secure API must have the `client_id` and `client_secret` parameters set.
 
-Setting the `client_id` and `client_secret` parameters can be done by calling the `Paypack.config()` method.
+Setting the `client_id` and `client_secret` parameters can be done by instantiating a new object or calling the `config` method.
 
 ```js
-var Paypack = require("paypack");
+const paypackJs = require("paypack").default;
 
-Paypack.config({ client_id: "", client_secret: "" });
+const paypack = new paypackJs({ client_id: "", client_secret: "" });
 ```
+
+or
+
+
+```js
+const paypackJs = require("paypack").default;
+
+const paypack = paypackJs.config({ client_id: "", client_secret: "" });
+```
+
 
 Assuming you have your Paypack configuration parameters defined (`client_id`,`client_secret`), making any request is very simple.
 
@@ -37,25 +47,21 @@ Assuming you have your Paypack configuration parameters defined (`client_id`,`cl
 The following example generates a cashin request:
 
 ```js
-var Paypack = require("paypack");
-
-Paypack.config({ client_id: "", client_secret: "" });
-
-Paypack.cashin({
+paypack.cashin({
   number: "07xxxxxxx",
   amount: 100,
   environment: "development/production",
 })
-  .then((res) => {
-    console.log(res.data);
+  .then((response) => {
+    console.log(response.data);
   })
-  .catch((err) => {
-    console.log(err);
+  .catch((error) => {
+    console.log(error);
   });
 ```
 
-<b> ⚠ Warning : </b> <i>"amount"</i> must be of type number.\
-<b> ℹ Info : </b> <i>"environment"</i> is an optional parameter corresponding to a mode of operation of your registerd webhook.
+<b> Warning : </b> <i>"amount"</i> must be of type number.\
+<b> Note : </b> <i>"environment"</i> is an optional parameter corresponding to a mode of operation of your registerd webhook.
 
 ##
 
@@ -64,11 +70,7 @@ Paypack.cashin({
 The following example generates a cashout request:
 
 ```js
-var Paypack = require("paypack");
-
-Paypack.config({ client_id: "", client_secret: "" });
-
-Paypack.cashout({
+paypack.cashout({
   number: "07xxxxxxx",
   amount: 100,
   environment: "development/production",
@@ -81,8 +83,8 @@ Paypack.cashout({
   });
 ```
 
-<b> ⚠ Warning : </b> <i>"amount"</i> must be of type number.\
-<b> ℹ️ Info : </b> <i>"environment"</i> is an optional parameter corresponding to a mode of operation of your registerd webhook.
+<b> Warning : </b> <i>"amount"</i> must be of type number.\
+<b> Note : </b> <i>"environment"</i> is an optional parameter corresponding to a mode of operation of your registerd webhook.
 
 ##
 
@@ -91,11 +93,7 @@ Paypack.cashout({
 The following example returns a list of 100 transactions:
 
 ```js
-var Paypack = require("paypack");
-
-Paypack.config({ client_id: "", client_secret: "" });
-
-Paypack.transactions({ offset: 0, limit: 100 })
+paypack.transactions({ offset: 0, limit: 100 })
   .then((res) => {
     console.log(res.data);
   })
@@ -104,7 +102,7 @@ Paypack.transactions({ offset: 0, limit: 100 })
   });
 ```
 
-<b> ⚠ Info : </b> This method supports a number of filters.
+<b> Note : </b> This method supports a number of filters.
 
 ```js
  - offset	String() // offset of transactions to fetch
@@ -122,10 +120,6 @@ Paypack.transactions({ offset: 0, limit: 100 })
 The following example returns a list of 100 events:
 
 ```js
-var Paypack = require("paypack");
-
-Paypack.config({ client_id: "", client_secret: "" });
-
 Paypack.events({ offset: 0, limit: 100 })
   .then((res) => {
     console.log(res.data);
@@ -135,7 +129,7 @@ Paypack.events({ offset: 0, limit: 100 })
   });
 ```
 
-<b> ⚠ Info : </b> This method supports a number of filters.
+<b> Note : </b> This method supports a number of filters.
 
 ```js
  - offset	String() // offset of events to fetch
@@ -155,10 +149,6 @@ Paypack.events({ offset: 0, limit: 100 })
 The following example returns the profile of the authenticated merchant:
 
 ```js
-var Paypack = require("paypack");
-
-Paypack.config({ client_id: "", client_secret: "" });
-
 Paypack.me()
   .then((res) => {
     console.log(res.data);
