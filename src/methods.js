@@ -1,7 +1,7 @@
 "use strict";
 
-const { http } = require("./http");
-const { secrets, getQueryString, isPhoneNumber } = require("./utils");
+const http = require("./http");
+const utils = require("./utils");
 
 /**
  * Fetch transactions according to filter parameters
@@ -15,11 +15,11 @@ const { secrets, getQueryString, isPhoneNumber } = require("./utils");
  *
  * @return {object}
  */
-exports.transactions = async (filters) =>
-  await new Promise(async (resolve, reject) => {
+async function transactions(filters) {
+  return await new Promise(async (resolve, reject) => {
     try {
       const res = await http.get(
-        `transactions/list?${getQueryString(filters)}`
+        `transactions/list?${utils.getQueryString(filters)}`
       );
 
       resolve(res);
@@ -27,6 +27,7 @@ exports.transactions = async (filters) =>
       reject(error);
     }
   });
+}
 
 /**
  * Fetch transaction according to the transaction ref
@@ -35,15 +36,15 @@ exports.transactions = async (filters) =>
  *
  * @return {object}
  */
-exports.transaction = async (ref) =>
-  await new Promise(async (resolve, reject) => {
+async function transaction(ref) {
+  return await new Promise(async (resolve, reject) => {
     try {
       if (!ref) {
-        throw new Error({ message: "Transaction ref is required" });
+        throw new Error("Transaction ref is required to fetch transaction");
       }
 
       if (typeof ref != "string") {
-        throw new Error({ message: "Transaction ref must be a string" });
+        throw new TypeError("Transaction reference must be a string type");
       }
 
       const res = await http.get(`transactions/find/${ref}`);
@@ -53,6 +54,7 @@ exports.transaction = async (ref) =>
       reject(error);
     }
   });
+}
 
 /**
  * Initiates a cashin.
@@ -62,35 +64,30 @@ exports.transaction = async (ref) =>
  *
  * @return {object}
  */
-exports.cashin = async (params) =>
-  await new Promise(async (resolve, reject) => {
+async function cashin(params) {
+  return await new Promise(async (resolve, reject) => {
     try {
-      if (!params) throw new Error("Invalid cashin parameters");
+      if (!params) throw new Error("Cashin parameters are required");
 
       let {
-        amount = new Error({ message: "property 'amount' is required" }),
-        number = new Error({ message: "property 'number' is required" }),
+        amount = new Error("Property 'amount' is required to cashin"),
+        number = new Error("Property 'number' is required to cashin"),
         environment = null,
       } = params;
 
-      if (Number(amount) == NaN) {
-        throw new Error({
-          message: "invalid amount",
-        });
-      } else amount = Number(amount);
+      if (Number(amount) == NaN) throw new TypeError("Property 'amount' must be a number type");
+      else amount = Number(amount);
 
       if (amount < 100) {
-        throw new Error({ message: "Minimum to cashin is 100 RWF" });
+        throw new Error("Minimum to cashin is 100 RWF");
       }
 
       if (typeof number !== "string") {
-        throw new TypeError({
-          message: "property 'number' must be of type string",
-        });
+        throw new TypeError("Property 'number' must a string type");
       }
 
-      if (!isPhoneNumber(number)) {
-        throw new Error({ message: "Invalid phone number" });
+      if (!utils.isPhoneNumber(number)) {
+        throw new Error("Invalid phone number");
       }
 
       const res = await http.post(
@@ -108,6 +105,7 @@ exports.cashin = async (params) =>
       reject(error);
     }
   });
+}
 
 /**
  * Initiates a cashout request.
@@ -117,35 +115,30 @@ exports.cashin = async (params) =>
  *
  * @return {object}
  */
-exports.cashout = async (params) =>
-  await new Promise(async (resolve, reject) => {
+async function cashout(params) {
+  return await new Promise(async (resolve, reject) => {
     try {
-      if (!params) throw new Error("Invalid cashout parameters");
+      if (!params) throw new Error("Cashout parameters are required");
 
       let {
-        amount = new Error({ message: "property 'amount' is required" }),
-        number = new Error({ message: "property 'number' is required" }),
+        amount = new Error("Property 'amount' is required to cashout"),
+        number = new Error("Property 'number' is required to cashout"),
         environment = null,
       } = params;
 
-      if (Number(amount) == NaN) {
-        throw new Error({
-          message: "invalid amount",
-        });
-      } else amount = Number(amount);
+      if (Number(amount) == NaN) throw new TypeError("Property 'amount' must be a number type");
+      else amount = Number(amount);
 
       if (amount < 100) {
-        throw new Error({ message: "minimum to cashout is 100 RWF" });
+        throw new Error("Minimum to cashout is 100 RWF");
       }
 
       if (typeof number !== "string") {
-        throw new TypeError({
-          message: "property 'number' must be of type string",
-        });
+        throw new TypeError("Property 'number' must a string type");
       }
 
-      if (!isPhoneNumber(number)) {
-        throw new Error({ message: "Invalid phone number" });
+      if (!utils.isPhoneNumber(number)) {
+        throw new Error("Invalid phone number");
       }
 
       const res = await http.post(
@@ -163,6 +156,7 @@ exports.cashout = async (params) =>
       reject(error);
     }
   });
+}
 
 /**
  * Fetch events according to filter parameters.
@@ -178,24 +172,25 @@ exports.cashout = async (params) =>
  *
  * @return {object}
  */
-exports.events = async (filters) =>
-  await new Promise(async (resolve, reject) => {
+async function events(filters) {
+  return await new Promise(async (resolve, reject) => {
     try {
       const res = await http.get(
-        `events/transactions?${getQueryString(filters)}`
+        `events/transactions?${utils.getQueryString(filters)}`
       );
       resolve(res);
     } catch (error) {
       reject(error);
     }
   });
+}
 
 /**
  * Provides a profile of authenticated user.
  *
  * @return {object}
  */
-exports.me = async () => {
+async function me() {
   return new Promise(async (resolve, reject) => {
     try {
       const res = await http.get(`merchants/me`);
@@ -204,21 +199,13 @@ exports.me = async () => {
       reject(error);
     }
   });
-};
+}
 
-/**
- * Sets SDK secrets
- *
- * @property  {string}  client_id
- * @property  {string}  client_secret
- *
- * @return {void}
- */
-exports.setSecrets = ({ client_id, client_secret }) => {
-  if (!client_id || !client_secret) {
-    throw new Error({ message: "Application secrets required" });
-  }
-
-  secrets.client_id = client_id;
-  secrets.client_secret = client_secret;
+module.exports = {
+  transactions: transactions,
+  transaction: transaction,
+  cashin: cashin,
+  cashout: cashout,
+  events: events,
+  me: me,
 };

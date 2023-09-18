@@ -6,31 +6,26 @@
   "homepage": "paypack.rw",
   "main": "index.js",
   "directories": {
-    "lib": "lib",
-    "tools": "tools"
+    "build": "build",
+    "src": "src"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "gulp build",
+    "watch": "gulp watch"
   },
   "dependencies": {
     "axios": "^0.24.0",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@babel/cli": "^7.16.0",
-    "@babel/core": "^7.16.5",
-    "@babel/plugin-transform-arrow-functions": "^7.16.5",
-    "@babel/preset-env": "^7.16.5",
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-stage-0": "^6.24.1",
-    "babel-register": "^6.26.0",
-    "babel-runtime": "^6.26.0",
-    "rimraf": "^3.0.0"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "compile": "tools/scripts/compile.sh"
+    "@babel/core": "^7.22.20",
+    "@babel/preset-env": "^7.22.20",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-uglify": "^3.0.2"
   },
   "repository": {
     "type": "git",
@@ -38,12 +33,22 @@
   },
   "keywords": [
     "paypack",
+    "paypack-js",
+    "paypack-js-sdk",
     "payment",
+    "gateway",
+    "quarksgroup",
+    "quarks",
     "sdk"
   ],
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/quarksgroup/paypack-js/issues"
   },
-  "browserslist": "> 0.25%, not dead"
+  "browserslist": "> 0.25%, not dead",
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
+  }
 }

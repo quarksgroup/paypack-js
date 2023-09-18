@@ -1,7 +1,7 @@
 "use strict";
 
-const { default: axios } = require("axios");
-const { token, state, checkSecrets, secrets } = require("./utils.js");
+const axios = require("axios");
+const utils = require("./utils.js");
 
 const axiosInstance = axios.create({
   baseURL: "https://payments.paypack.rw/api/",
@@ -9,13 +9,13 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   async (config) => {
-    if (!state.isLoggedIn) {
+    if (!utils.isAuthenticated()) {
       if (config.url.includes("auth/agents/authorize")) return config;
       else await authenticate();
     }
 
-    if (token.access) {
-      config.headers["Authorization"] = token.access;
+    if (utils.getAccessToken()) {
+      config.headers["Authorization"] = utils.getAccessToken();
     }
 
     return config;
@@ -32,7 +32,7 @@ axiosInstance.interceptors.response.use(
         const originalRequest = error.config;
         if (error.response.status === 401) {
           if (originalRequest.url.includes("auth/agents/authorize")) {
-            throw error.response.data;
+            throw error.response.data || error.response;
           }
 
           if (!originalRequest._retry) {
@@ -44,14 +44,12 @@ axiosInstance.interceptors.response.use(
           } else if (originalRequest._retry) {
             token.access = null;
             token.refresh = null;
-            throw new Error({
-              message: "Refresh tokens expired, authenticate again",
-            });
+            throw new Error("Refresh token expired, please authenticate again");
           } else {
-            throw error.response.data;
+            throw error.response.data || error.response;
           }
         } else {
-          throw error.response.data;
+          throw error.response.data || error.response;
         }
       } else {
         throw error;
@@ -69,16 +67,12 @@ axiosInstance.interceptors.response.use(
 async function authenticate() {
   return await new Promise(async (resolve, reject) => {
     try {
-      checkSecrets();
-      const res = await axiosInstance.post("auth/agents/authorize", {
-        client_id: secrets.client_id,
-        client_secret: secrets.client_secret,
-      });
+      utils.checkSecrets();
+      const res = await axiosInstance.post("auth/agents/authorize", utils.getSecrets());
 
       if (res.data) {
-        token.access = res.data.access;
-        token.refresh = res.data.refresh;
-        state.isLoggedIn = true;
+        utils.setTokens(res.data);
+        utils.setAuthenticationState(true);
       }
 
       resolve(res);
@@ -93,13 +87,13 @@ async function authenticate() {
  * @return {string}
  */
 async function refreshAccessToken() {
-  if (!token.refresh) return null;
+  const refreshToken = utils.getRefreshToken();
+  if (!refreshToken) return null;
   axiosInstance
-    .get(`auth/refresh/${token.refresh}`)
+    .get(`auth/refresh/${refreshToken}`)
     .then((res) => {
       if (res.data) {
-        token.access = res.data.access;
-        token.refresh = res.data.refresh;
+        utils.setTokens(res.data);
         return res.data.access;
       }
       return null;
@@ -109,4 +103,4 @@ async function refreshAccessToken() {
     });
 }
 
-exports.http = axiosInstance;
+module.exports = axiosInstance;
