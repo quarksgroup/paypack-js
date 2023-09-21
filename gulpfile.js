@@ -1,18 +1,17 @@
 const gulp = require('gulp');
 const babel = require('gulp-babel');
-const concat = require('gulp-concat');
 const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify');
 
 
-const build = () => {
+const dist = () => {
     return gulp.src('src/**/*.js')
         .pipe(babel({
             presets: ['@babel/env']
         }))
         .pipe(sourcemaps.init())
         .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest('build'));
+        .pipe(gulp.dest('dist'));
 };
 
 const indexUMD = () => {
@@ -20,14 +19,15 @@ const indexUMD = () => {
         .pipe(babel({
             presets: ['@babel/env']
         }))
-        .pipe(gulp.dest('build'));
+        .pipe(uglify())
+        .pipe(gulp.dest('dist'));
 };
 
 const watch = () => {
-    gulp.watch('src/**/*.js', build);
+    gulp.watch('src/**/*.js', dist);
     gulp.watch('index.js', indexUMD);
 };
 
 gulp.task('indexUMD', indexUMD);
-gulp.task('build', build);
+gulp.task('dist', dist);
 gulp.task('watch', watch);

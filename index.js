@@ -1,1 +1,1 @@
-module.exports.default = require("./build/paypack.js");
+module.exports.default = require("./dist/paypack.js");
