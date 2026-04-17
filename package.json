@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "axios": "^0.31.0",
-    "lodash": "^4.17.21"
+    "lodash": "^4.18.1"
   },
   "devDependencies": {
     "@babel/core": "^7.22.20",
